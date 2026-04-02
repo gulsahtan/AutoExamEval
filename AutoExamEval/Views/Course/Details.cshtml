@@ -1,0 +1,38 @@
+@model AutoExamEval.ViewModels.Course.CourseDetailsViewModel
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<h2>Course Details</h2>
+
+<dl>
+    <dt>Course Code</dt>
+    <dd>@Model.CourseCode</dd>
+
+    <dt>Course Name</dt>
+    <dd>@Model.CourseName</dd>
+
+    <dt>Term</dt>
+    <dd>@Model.Term</dd>
+
+    <dt>Academic Year</dt>
+    <dd>@Model.AcademicYear</dd>
+
+    <dt>Instructor Name</dt>
+    <dd>@Model.InstructorName</dd>
+
+    <dt>Description</dt>
+    <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</dd>
+
+    <dt>Created At (UTC)</dt>
+    <dd>@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+
+    <dt>Updated At (UTC)</dt>
+    <dd>@Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+</dl>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
