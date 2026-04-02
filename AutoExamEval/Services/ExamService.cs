@@ -141,6 +141,8 @@ public class ExamService : IExamService
         {
             return false;
         }
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<bool> ExistsAsync(int id)
