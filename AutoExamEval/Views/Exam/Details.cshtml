@@ -1,0 +1,94 @@
+@model AutoExamEval.ViewModels.Exam.ExamDetailsViewModel
+
+@{
+    ViewData["Title"] = "Exam Details";
+}
+
+<h2>Exam Details</h2>
+
+<dl>
+    <dt>Course</dt>
+    <dd>@Model.CourseName</dd>
+
+    <dt>Exam Title</dt>
+    <dd>@Model.ExamTitle</dd>
+
+    <dt>Exam Type</dt>
+    <dd>@Model.ExamType</dd>
+
+    <dt>Exam Date</dt>
+    <dd>@Model.ExamDate.ToString("yyyy-MM-dd")</dd>
+
+    <dt>Exam Location</dt>
+    <dd>@Model.ExamLocation</dd>
+
+    <dt>Instructor Name</dt>
+    <dd>@Model.InstructorName</dd>
+
+    <dt>Duration</dt>
+    <dd>@Model.DurationMinutes dk</dd>
+
+    <dt>Total Score</dt>
+    <dd>@Model.TotalScore</dd>
+
+    <dt>Template Type</dt>
+    <dd>@(string.IsNullOrWhiteSpace(Model.TemplateType) ? "-" : Model.TemplateType)</dd>
+
+    <dt>Description</dt>
+    <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</dd>
+
+    <dt>Created At (UTC)</dt>
+    <dd>@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+
+    <dt>Updated At (UTC)</dt>
+    <dd>@Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+</dl>
+
+<hr />
+<h3>Questions</h3>
+<p>
+    <a class="btn" asp-controller="Question" asp-action="Create" asp-route-examId="@Model.Id">Add Question</a>
+    <a asp-controller="Question" asp-action="ByExam" asp-route-examId="@Model.Id">View All Questions for This Exam</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Question No</th>
+        <th>Question Type</th>
+        <th>Question Text</th>
+        <th>Score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Questions.Any())
+    {
+        <tr>
+            <td colspan="5">Bu sınava ait soru bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var question in Model.Questions)
+        {
+            <tr>
+                <td>@question.QuestionNo</td>
+                <td>@question.QuestionType</td>
+                <td>@(question.QuestionText.Length > 120 ? question.QuestionText[..120] + "..." : question.QuestionText)</td>
+                <td>@question.Score</td>
+                <td>
+                    <a asp-controller="Question" asp-action="Details" asp-route-id="@question.Id">Details</a> |
+                    <a asp-controller="Question" asp-action="Edit" asp-route-id="@question.Id">Edit</a> |
+                    <a asp-controller="Question" asp-action="Delete" asp-route-id="@question.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="ByCourse" asp-route-courseId="@Model.CourseId">Back to Course Exams</a>
+</p>

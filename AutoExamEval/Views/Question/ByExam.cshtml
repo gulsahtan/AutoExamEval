@@ -1,0 +1,58 @@
+@model IEnumerable<AutoExamEval.ViewModels.Question.QuestionListViewModel>
+
+@{
+    ViewData["Title"] = "Exam Questions";
+    var examId = (int)ViewBag.ExamId;
+    var examTitle = (string)ViewBag.ExamTitle;
+    var courseName = (string)ViewBag.CourseName;
+}
+
+<h2>Questions - @examTitle</h2>
+<p><strong>Course:</strong> @courseName</p>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<p>
+    <a class="btn" asp-action="Create" asp-route-examId="@examId">Add New Question</a>
+    <a asp-controller="Exam" asp-action="Details" asp-route-id="@examId">Back to Exam Details</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Question No</th>
+        <th>Question Type</th>
+        <th>Question Text</th>
+        <th>Score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="5">Bu sınava ait soru bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.QuestionNo</td>
+                <td>@item.QuestionType</td>
+                <td>@(item.QuestionText.Length > 120 ? item.QuestionText[..120] + "..." : item.QuestionText)</td>
+                <td>@item.Score</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
