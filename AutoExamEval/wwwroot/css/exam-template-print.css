@@ -1,0 +1,24 @@
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+body {
+    background: #fff;
+}
+
+.template-page {
+    margin: 0;
+    width: auto;
+    min-height: auto;
+    padding: 0;
+    box-shadow: none;
+}
+
+.no-print {
+    display: none !important;
+}
+
+.question-block {
+    page-break-inside: avoid;
+}

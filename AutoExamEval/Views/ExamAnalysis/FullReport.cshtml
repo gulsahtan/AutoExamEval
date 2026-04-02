@@ -1,0 +1,148 @@
+@model AutoExamEval.ViewModels.Analysis.ExamFullAnalysisViewModel
+
+@{
+    ViewData["Title"] = "Exam Analysis Report";
+    var hasImportedAnswers = (bool?)ViewBag.HasImportedAnswers ?? false;
+}
+
+<h2>Exam Analysis Report</h2>
+
+<p>
+    <strong>Course:</strong> @Model.Summary.CourseName <br />
+    <strong>Exam:</strong> @Model.Summary.ExamTitle
+</p>
+
+<p>
+    <a class="btn" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.Summary.ExamId">Back to Exam Details</a>
+</p>
+
+@if (!hasImportedAnswers)
+{
+    <div class="alert alert-warning">
+        Bu sınava ait import edilmiş cevap kaydı bulunamadı. Analiz sonuçları sınırlı olabilir.
+    </div>
+}
+
+<h3>1) Exam Summary</h3>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin-bottom:16px;">
+    <div class="card p-2"><strong>Total Students</strong><br />@Model.Summary.TotalStudents</div>
+    <div class="card p-2"><strong>Total Questions</strong><br />@Model.Summary.TotalQuestions</div>
+    <div class="card p-2"><strong>Total Answers</strong><br />@Model.Summary.TotalAnswers</div>
+    <div class="card p-2"><strong>Average Score</strong><br />@Model.Summary.AverageScore</div>
+    <div class="card p-2"><strong>Highest Score</strong><br />@Model.Summary.HighestScore</div>
+    <div class="card p-2"><strong>Lowest Score</strong><br />@Model.Summary.LowestScore</div>
+    <div class="card p-2"><strong>Average Success Rate</strong><br />@Model.Summary.AverageSuccessRate %</div>
+</div>
+
+<h3>2) Student Performance</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Student Number</th>
+        <th>Full Name</th>
+        <th>Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Total Score</th>
+        <th>Success Rate</th>
+        <th>Needs Manual Evaluation</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.StudentPerformances.Any())
+    {
+        <tr><td colspan="8">Öğrenci performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.StudentPerformances)
+        {
+            <tr>
+                <td>@item.StudentNumber</td>
+                <td>@item.FullName</td>
+                <td>@item.CorrectCount</td>
+                <td>@item.WrongCount</td>
+                <td>@item.BlankCount</td>
+                <td>@item.TotalScore</td>
+                <td>@item.SuccessRate %</td>
+                <td>@(item.NeedsManualEvaluation ? "Yes" : "No")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<h3>3) Question Performance</h3>
+<p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Question No</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Total Responses</th>
+        <th>Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Success Rate</th>
+        <th>Difficulty Index</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.QuestionPerformances.Any())
+    {
+        <tr><td colspan="9">Soru performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.QuestionPerformances)
+        {
+            <tr>
+                <td>@item.QuestionNo</td>
+                <td>@item.QuestionType</td>
+                <td>@item.Score</td>
+                <td>@item.TotalResponses</td>
+                <td>@item.CorrectCount</td>
+                <td>@item.WrongCount</td>
+                <td>@item.BlankCount</td>
+                <td>@item.SuccessRate %</td>
+                <td>@item.DifficultyIndex</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<h3>4) Learning Outcome Performance</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Outcome Code</th>
+        <th>Description</th>
+        <th>Related Question Count</th>
+        <th>Student Interaction Count</th>
+        <th>Success Rate</th>
+        <th>Average Contribution Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.LearningOutcomePerformances.Any())
+    {
+        <tr><td colspan="6">Kazanım performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.LearningOutcomePerformances)
+        {
+            <tr>
+                <td>@item.OutcomeCode</td>
+                <td>@item.OutcomeDescription</td>
+                <td>@item.RelatedQuestionCount</td>
+                <td>@item.StudentInteractionCount</td>
+                <td>@item.SuccessRate %</td>
+                <td>@item.AverageContributionScore</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

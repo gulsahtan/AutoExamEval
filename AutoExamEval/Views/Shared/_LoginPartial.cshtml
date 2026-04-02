@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AutoExamEval.Entities.AppUser> SignInManager
+@inject UserManager<AutoExamEval.Entities.AppUser> UserManager
+
+<ul class="auth-menu">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="auth-item">Merhaba, @User.Identity?.Name</li>
+    <li class="auth-item">
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-link">Çıkış Yap</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="auth-item">
+        <a asp-controller="Account" asp-action="Login">Giriş</a>
+    </li>
+}
+</ul>
