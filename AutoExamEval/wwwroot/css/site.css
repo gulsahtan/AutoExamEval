@@ -16,6 +16,7 @@ body {
 }
 
 .nav-content {
+.navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,6 +25,7 @@ body {
 .navbar a {
     color: #fff;
     text-decoration: none;
+    margin-left: 1rem;
 }
 
 .brand {
