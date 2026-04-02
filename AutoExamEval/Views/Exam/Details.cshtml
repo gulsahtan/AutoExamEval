@@ -9,6 +9,7 @@
 <p>
     <a class="btn" asp-action="TemplatePreview" asp-route-id="@Model.Id">Template Preview</a>
     <a class="btn" asp-action="PrintTemplate" asp-route-id="@Model.Id">Print Template</a>
+    <a class="btn" asp-controller="ExamAnalysis" asp-action="FullReport" asp-route-examId="@Model.Id">View Analysis Report</a>
 </p>
 
 <dl>

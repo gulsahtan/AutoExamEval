@@ -1,0 +1,18 @@
+@model AutoExamEval.ViewModels.Analysis.ExamAnalysisSummaryViewModel
+
+@{
+    ViewData["Title"] = "Exam Analysis Summary";
+}
+
+<h2>Exam Analysis Summary</h2>
+<p><strong>@Model.ExamTitle</strong> - @Model.CourseName</p>
+<ul>
+    <li>Total Students: @Model.TotalStudents</li>
+    <li>Total Questions: @Model.TotalQuestions</li>
+    <li>Total Answers: @Model.TotalAnswers</li>
+    <li>Average Score: @Model.AverageScore</li>
+    <li>Highest Score: @Model.HighestScore</li>
+    <li>Lowest Score: @Model.LowestScore</li>
+    <li>Average Success Rate: @Model.AverageSuccessRate %</li>
+</ul>
+<p><a asp-action="FullReport" asp-route-examId="@Model.ExamId">Full Report</a></p>
