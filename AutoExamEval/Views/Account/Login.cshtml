@@ -1,0 +1,39 @@
+@model AutoExamEval.ViewModels.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+<h2>Giriş</h2>
+<p>Yönetim ekranlarını görüntülemek için giriş yapınız.</p>
+
+<form asp-action="Login" asp-controller="Account" method="post" novalidate>
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="RememberMe">
+            <input asp-for="RememberMe" /> @Html.DisplayNameFor(m => m.RememberMe)
+        </label>
+    </div>
+
+    <button class="btn" type="submit">Giriş Yap</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
