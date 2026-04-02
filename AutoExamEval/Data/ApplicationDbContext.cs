@@ -15,6 +15,9 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Question> Questions => Set<Question>();
     public DbSet<LearningOutcome> LearningOutcomes => Set<LearningOutcome>();
     public DbSet<QuestionOutcome> QuestionOutcomes => Set<QuestionOutcome>();
+    public DbSet<Student> Students => Set<Student>();
+    public DbSet<OpticalReadBatch> OpticalReadBatches => Set<OpticalReadBatch>();
+    public DbSet<StudentAnswer> StudentAnswers => Set<StudentAnswer>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -180,6 +183,96 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
                 .WithMany(x => x.Questions)
                 .HasForeignKey(x => x.ExamId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+
+
+        builder.Entity<Student>(entity =>
+        {
+            entity.Property(x => x.StudentNumber)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            entity.Property(x => x.FullName)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            entity.Property(x => x.Department)
+                .HasMaxLength(150);
+
+            entity.Property(x => x.ClassName)
+                .HasMaxLength(50);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired();
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired();
+
+            entity.HasIndex(x => x.StudentNumber)
+                .IsUnique();
+        });
+
+        builder.Entity<OpticalReadBatch>(entity =>
+        {
+            entity.Property(x => x.BatchName)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            entity.Property(x => x.ImportedByUserId)
+                .HasMaxLength(450);
+
+            entity.Property(x => x.FileName)
+                .HasMaxLength(260);
+
+            entity.Property(x => x.Notes)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.ImportedAt)
+                .IsRequired();
+
+            entity.HasOne(x => x.Exam)
+                .WithMany(x => x.OpticalReadBatches)
+                .HasForeignKey(x => x.ExamId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<StudentAnswer>(entity =>
+        {
+            entity.Property(x => x.GivenAnswer)
+                .HasMaxLength(200);
+
+            entity.Property(x => x.RawValue)
+                .HasMaxLength(500);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired();
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired();
+
+            entity.HasIndex(x => new { x.ExamId, x.StudentId, x.QuestionId })
+                .IsUnique();
+
+            entity.HasOne(x => x.Exam)
+                .WithMany(x => x.StudentAnswers)
+                .HasForeignKey(x => x.ExamId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(x => x.Student)
+                .WithMany(x => x.StudentAnswers)
+                .HasForeignKey(x => x.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(x => x.Question)
+                .WithMany(x => x.StudentAnswers)
+                .HasForeignKey(x => x.QuestionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(x => x.OpticalReadBatch)
+                .WithMany(x => x.StudentAnswers)
+                .HasForeignKey(x => x.OpticalReadBatchId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<QuestionOutcome>(entity =>

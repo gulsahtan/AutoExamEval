@@ -47,4 +47,8 @@ public class Exam
     public Course? Course { get; set; }
 
     public ICollection<Question> Questions { get; set; } = new List<Question>();
+
+    public ICollection<OpticalReadBatch> OpticalReadBatches { get; set; } = new List<OpticalReadBatch>();
+
+    public ICollection<StudentAnswer> StudentAnswers { get; set; } = new List<StudentAnswer>();
 }

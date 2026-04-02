@@ -51,4 +51,6 @@ public class Question
     public Exam? Exam { get; set; }
 
     public ICollection<QuestionOutcome> QuestionOutcomes { get; set; } = new List<QuestionOutcome>();
+
+    public ICollection<StudentAnswer> StudentAnswers { get; set; } = new List<StudentAnswer>();
 }
