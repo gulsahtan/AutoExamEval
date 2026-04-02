@@ -73,6 +73,7 @@ public class ExamController : Controller
                     Score = x.Score
                 })
                 .ToList()
+            UpdatedAt = exam.UpdatedAt
         };
 
         return View(model);
@@ -195,6 +196,7 @@ public class ExamController : Controller
         {
             TempData["ErrorMessage"] = "Exam silinemedi. İlişkili soruları kontrol ediniz.";
             return RedirectToAction(nameof(ByCourse), new { courseId });
+            return NotFound();
         }
 
         TempData["SuccessMessage"] = "Exam başarıyla silindi.";

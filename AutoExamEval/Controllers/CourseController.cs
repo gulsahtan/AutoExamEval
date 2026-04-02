@@ -52,6 +52,7 @@ public class CourseController : Controller
                     TotalScore = x.TotalScore
                 })
                 .ToList()
+            UpdatedAt = course.UpdatedAt
         };
 
         return View(model);
@@ -157,6 +158,7 @@ public class CourseController : Controller
         {
             TempData["ErrorMessage"] = "Course silinemedi. İlişkili kayıtları kontrol ediniz.";
             return RedirectToAction(nameof(Index));
+            return NotFound();
         }
 
         TempData["SuccessMessage"] = "Course başarıyla silindi.";
