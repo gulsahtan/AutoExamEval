@@ -15,6 +15,7 @@ body {
     background: #1f2937;
 }
 
+.nav-content {
 .navbar .container {
     display: flex;
     justify-content: space-between;
@@ -31,6 +32,20 @@ body {
     font-weight: bold;
 }
 
+.auth-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+}
+
+.auth-item form {
+    margin: 0;
+}
+
 .btn {
     border: 0;
     background: #2563eb;
@@ -38,4 +53,23 @@ body {
     padding: 0.6rem 1rem;
     border-radius: 6px;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-link {
+    background: transparent;
+    color: #fff;
+    padding: 0;
+}
+
+input {
+    display: block;
+    margin-top: 0.3rem;
+    margin-bottom: 0.7rem;
+    padding: 0.45rem;
+    min-width: 320px;
+}
+
+.text-danger {
+    color: #b91c1c;
 }
