@@ -45,4 +45,6 @@ public class Exam
     public DateTime UpdatedAt { get; set; }
 
     public Course? Course { get; set; }
+
+    public ICollection<Question> Questions { get; set; } = new List<Question>();
 }

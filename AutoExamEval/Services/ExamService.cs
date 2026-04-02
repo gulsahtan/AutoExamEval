@@ -44,6 +44,7 @@ public class ExamService : IExamService
         return await _context.Exams
             .AsNoTracking()
             .Include(x => x.Course)
+            .Include(x => x.Questions)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
@@ -130,6 +131,16 @@ public class ExamService : IExamService
         }
 
         _context.Exams.Remove(existingExam);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
         await _context.SaveChangesAsync();
         return true;
     }

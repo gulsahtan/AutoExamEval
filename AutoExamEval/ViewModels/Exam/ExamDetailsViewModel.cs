@@ -18,4 +18,15 @@ public class ExamDetailsViewModel
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public List<ExamQuestionListItemViewModel> Questions { get; set; } = new();
+}
+
+public class ExamQuestionListItemViewModel
+{
+    public int Id { get; set; }
+    public int QuestionNo { get; set; }
+    public QuestionType QuestionType { get; set; }
+    public string QuestionText { get; set; } = string.Empty;
+    public decimal Score { get; set; }
 }

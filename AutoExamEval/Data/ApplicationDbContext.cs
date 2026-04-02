@@ -12,6 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
 
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Exam> Exams => Set<Exam>();
+    public DbSet<Question> Questions => Set<Question>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -100,5 +101,58 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+
+        builder.Entity<Question>(entity =>
+        {
+            entity.Property(x => x.QuestionNo)
+                .IsRequired();
+
+            entity.Property(x => x.QuestionText)
+                .HasMaxLength(4000)
+                .IsRequired();
+
+            entity.Property(x => x.QuestionType)
+                .IsRequired();
+
+            entity.Property(x => x.OptionA)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.OptionB)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.OptionC)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.OptionD)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.OptionE)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.CorrectAnswer)
+                .HasMaxLength(100);
+
+            entity.Property(x => x.Score)
+                .HasColumnType("decimal(8,2)")
+                .IsRequired();
+
+            entity.Property(x => x.AnswerText)
+                .HasMaxLength(2000);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired();
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired();
+
+            entity.HasIndex(x => new { x.ExamId, x.QuestionNo })
+                .IsUnique();
+
+            entity.HasOne(x => x.Exam)
+                .WithMany(x => x.Questions)
+                .HasForeignKey(x => x.ExamId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
     }
 }

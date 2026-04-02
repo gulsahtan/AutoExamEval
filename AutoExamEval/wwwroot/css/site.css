@@ -108,3 +108,8 @@ input {
 .text-danger {
     color: #b91c1c;
 }
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+}

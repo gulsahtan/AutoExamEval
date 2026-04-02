@@ -1,0 +1,33 @@
+@model AutoExamEval.ViewModels.Question.QuestionDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Question";
+}
+
+<h2>Delete Question</h2>
+<p>Bu soruyu silmek istediğinizden emin misiniz?</p>
+
+<dl>
+    <dt>Exam</dt>
+    <dd>@Model.ExamTitle</dd>
+
+    <dt>Question No</dt>
+    <dd>@Model.QuestionNo</dd>
+
+    <dt>Question Type</dt>
+    <dd>@Model.QuestionType</dd>
+
+    <dt>Question Text</dt>
+    <dd>@Model.QuestionText</dd>
+
+    <dt>Score</dt>
+    <dd>@Model.Score</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ExamId" name="examId" />
+    <button class="btn" type="submit">Delete</button>
+    <a asp-action="ByExam" asp-route-examId="@Model.ExamId">Cancel</a>
+</form>

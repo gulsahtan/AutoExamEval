@@ -61,6 +61,18 @@ public class ExamController : Controller
             TemplateType = exam.TemplateType,
             Description = exam.Description,
             CreatedAt = exam.CreatedAt,
+            UpdatedAt = exam.UpdatedAt,
+            Questions = exam.Questions
+                .OrderBy(x => x.QuestionNo)
+                .Select(x => new ExamQuestionListItemViewModel
+                {
+                    Id = x.Id,
+                    QuestionNo = x.QuestionNo,
+                    QuestionType = x.QuestionType,
+                    QuestionText = x.QuestionText,
+                    Score = x.Score
+                })
+                .ToList()
             UpdatedAt = exam.UpdatedAt
         };
 
@@ -182,6 +194,8 @@ public class ExamController : Controller
         var deleted = await _examService.DeleteAsync(id);
         if (!deleted)
         {
+            TempData["ErrorMessage"] = "Exam silinemedi. İlişkili soruları kontrol ediniz.";
+            return RedirectToAction(nameof(ByCourse), new { courseId });
             return NotFound();
         }
 

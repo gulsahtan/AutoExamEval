@@ -13,6 +13,11 @@
     <div class="alert alert-success">@message</div>
 }
 
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-error">@errorMessage</div>
+}
+
 <p>
     <a class="btn" asp-action="Create" asp-route-courseId="@courseId">Add New Exam</a>
     <a asp-controller="Course" asp-action="Details" asp-route-id="@courseId">Back to Course Details</a>
