@@ -10,6 +10,14 @@
     <header>
         <nav class="navbar">
             <div class="container nav-content">
+                <div class="nav-left">
+                    <a class="brand" asp-controller="Home" asp-action="Index">AutoExamEval</a>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Course" asp-action="Index">Courses</a>
+                    }
+                </div>
+                <partial name="_LoginPartial" />
                 <a class="brand" asp-controller="Home" asp-action="Index">AutoExamEval</a>
                 <partial name="_LoginPartial" />
             <div class="container">

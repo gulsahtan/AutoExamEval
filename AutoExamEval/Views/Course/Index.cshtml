@@ -1,0 +1,55 @@
+@model IEnumerable<AutoExamEval.ViewModels.Course.CourseListViewModel>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses</h2>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<p>
+    <a class="btn" asp-action="Create">New Course</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Term</th>
+            <th>Academic Year</th>
+            <th>Instructor Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Henüz kayıtlı ders bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CourseCode</td>
+                <td>@item.CourseName</td>
+                <td>@item.Term</td>
+                <td>@item.AcademicYear</td>
+                <td>@item.InstructorName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

@@ -1,0 +1,55 @@
+@model AutoExamEval.ViewModels.Course.CourseCreateViewModel
+
+@{
+    ViewData["Title"] = "New Course";
+}
+
+<h2>New Course</h2>
+
+<form asp-action="Create" method="post" novalidate>
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div>
+        <label asp-for="CourseCode"></label>
+        <input asp-for="CourseCode" />
+        <span asp-validation-for="CourseCode" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="CourseName"></label>
+        <input asp-for="CourseName" />
+        <span asp-validation-for="CourseName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Term"></label>
+        <input asp-for="Term" />
+        <span asp-validation-for="Term" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="AcademicYear"></label>
+        <input asp-for="AcademicYear" />
+        <span asp-validation-for="AcademicYear" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="InstructorName"></label>
+        <input asp-for="InstructorName" />
+        <span asp-validation-for="InstructorName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button class="btn" type="submit">Save</button>
+    <a asp-action="Index">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

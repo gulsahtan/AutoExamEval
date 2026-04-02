@@ -1,5 +1,10 @@
 using AutoExamEval.Data;
 using AutoExamEval.Entities;
+using AutoExamEval.Services;
+using AutoExamEval.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -49,6 +54,8 @@ builder.Services.AddControllersWithViews(options =>
 
     options.Filters.Add(new AuthorizeFilter(policy));
 });
+
+builder.Services.AddScoped<ICourseService, CourseService>();
 });
 
 builder.Services.AddControllersWithViews();
