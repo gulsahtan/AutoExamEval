@@ -15,6 +15,10 @@
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <a asp-controller="Course" asp-action="Index">Courses</a>
+                        <a asp-controller="Exam" asp-action="Index">Exams</a>
+                    }
+                </div>
+                <partial name="_LoginPartial" />
                     }
                 </div>
                 <partial name="_LoginPartial" />

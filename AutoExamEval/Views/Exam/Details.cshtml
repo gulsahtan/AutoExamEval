@@ -1,0 +1,50 @@
+@model AutoExamEval.ViewModels.Exam.ExamDetailsViewModel
+
+@{
+    ViewData["Title"] = "Exam Details";
+}
+
+<h2>Exam Details</h2>
+
+<dl>
+    <dt>Course</dt>
+    <dd>@Model.CourseName</dd>
+
+    <dt>Exam Title</dt>
+    <dd>@Model.ExamTitle</dd>
+
+    <dt>Exam Type</dt>
+    <dd>@Model.ExamType</dd>
+
+    <dt>Exam Date</dt>
+    <dd>@Model.ExamDate.ToString("yyyy-MM-dd")</dd>
+
+    <dt>Exam Location</dt>
+    <dd>@Model.ExamLocation</dd>
+
+    <dt>Instructor Name</dt>
+    <dd>@Model.InstructorName</dd>
+
+    <dt>Duration</dt>
+    <dd>@Model.DurationMinutes dk</dd>
+
+    <dt>Total Score</dt>
+    <dd>@Model.TotalScore</dd>
+
+    <dt>Template Type</dt>
+    <dd>@(string.IsNullOrWhiteSpace(Model.TemplateType) ? "-" : Model.TemplateType)</dd>
+
+    <dt>Description</dt>
+    <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</dd>
+
+    <dt>Created At (UTC)</dt>
+    <dd>@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+
+    <dt>Updated At (UTC)</dt>
+    <dd>@Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+</dl>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="ByCourse" asp-route-courseId="@Model.CourseId">Back to Course Exams</a>
+</p>

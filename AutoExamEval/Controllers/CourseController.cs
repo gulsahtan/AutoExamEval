@@ -39,6 +39,19 @@ public class CourseController : Controller
             InstructorName = course.InstructorName,
             Description = course.Description,
             CreatedAt = course.CreatedAt,
+            UpdatedAt = course.UpdatedAt,
+            Exams = course.Exams
+                .OrderByDescending(x => x.ExamDate)
+                .Select(x => new CourseExamListItemViewModel
+                {
+                    Id = x.Id,
+                    ExamTitle = x.ExamTitle,
+                    ExamType = x.ExamType,
+                    ExamDate = x.ExamDate,
+                    DurationMinutes = x.DurationMinutes,
+                    TotalScore = x.TotalScore
+                })
+                .ToList()
             UpdatedAt = course.UpdatedAt
         };
 
@@ -143,6 +156,8 @@ public class CourseController : Controller
         var deleted = await _courseService.DeleteAsync(id);
         if (!deleted)
         {
+            TempData["ErrorMessage"] = "Course silinemedi. İlişkili kayıtları kontrol ediniz.";
+            return RedirectToAction(nameof(Index));
             return NotFound();
         }
 

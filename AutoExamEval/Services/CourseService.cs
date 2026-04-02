@@ -36,6 +36,7 @@ public class CourseService : ICourseService
     {
         return await _context.Courses
             .AsNoTracking()
+            .Include(c => c.Exams)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
@@ -83,6 +84,8 @@ public class CourseService : ICourseService
 
     public async Task<bool> DeleteAsync(int id)
     {
+        var existingCourse = await _context.Courses.Include(c => c.Exams)
+            .FirstOrDefaultAsync(c => c.Id == id);
         var existingCourse = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
         if (existingCourse is null)
         {
@@ -90,6 +93,16 @@ public class CourseService : ICourseService
         }
 
         _context.Courses.Remove(existingCourse);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
         await _context.SaveChangesAsync();
 
         return true;
