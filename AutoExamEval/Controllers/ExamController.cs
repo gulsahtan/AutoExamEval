@@ -18,6 +18,11 @@ public class ExamController : Controller
         _examService = examService;
         _courseService = courseService;
         _examTemplateService = examTemplateService;
+
+    public ExamController(IExamService examService, ICourseService courseService)
+    {
+        _examService = examService;
+        _courseService = courseService;
     }
 
     public async Task<IActionResult> Index()
@@ -76,6 +81,7 @@ public class ExamController : Controller
                     Score = x.Score
                 })
                 .ToList()
+            UpdatedAt = exam.UpdatedAt
         };
 
         return View(model);
@@ -198,6 +204,7 @@ public class ExamController : Controller
         {
             TempData["ErrorMessage"] = "Exam silinemedi. İlişkili soruları kontrol ediniz.";
             return RedirectToAction(nameof(ByCourse), new { courseId });
+            return NotFound();
         }
 
         TempData["SuccessMessage"] = "Exam başarıyla silindi.";
