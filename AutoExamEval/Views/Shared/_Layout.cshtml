@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AutoExamEval</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a class="brand" asp-controller="Home" asp-action="Index">AutoExamEval</a>
+                <a asp-controller="Account" asp-action="Login">Giriş</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="footer container">
+        <small>&copy; @DateTime.Now.Year - AutoExamEval</small>
+    </footer>
+</body>
+</html>
