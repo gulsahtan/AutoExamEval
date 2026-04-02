@@ -64,6 +64,12 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction(nameof(Login));
+public class AccountController : Controller
+{
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
     }
 
     [HttpGet]
