@@ -1,0 +1,36 @@
+@model AutoExamEval.ViewModels.Exam.ExamDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Exam";
+}
+
+<h2>Delete Exam</h2>
+<p>Bu sınavı silmek istediğinizden emin misiniz?</p>
+
+<dl>
+    <dt>Course</dt>
+    <dd>@Model.CourseName</dd>
+
+    <dt>Exam Title</dt>
+    <dd>@Model.ExamTitle</dd>
+
+    <dt>Exam Type</dt>
+    <dd>@Model.ExamType</dd>
+
+    <dt>Exam Date</dt>
+    <dd>@Model.ExamDate.ToString("yyyy-MM-dd")</dd>
+
+    <dt>Duration</dt>
+    <dd>@Model.DurationMinutes dk</dd>
+
+    <dt>Total Score</dt>
+    <dd>@Model.TotalScore</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CourseId" name="courseId" />
+    <button class="btn" type="submit">Delete</button>
+    <a asp-action="ByCourse" asp-route-courseId="@Model.CourseId">Cancel</a>
+</form>

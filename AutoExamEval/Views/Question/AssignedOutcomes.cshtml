@@ -1,0 +1,42 @@
+@model IEnumerable<AutoExamEval.ViewModels.QuestionOutcome.QuestionOutcomeListViewModel>
+
+@{
+    ViewData["Title"] = "Assigned Outcomes";
+    var questionId = (int)ViewBag.QuestionId;
+}
+
+<h2>Assigned Learning Outcomes</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Outcome Code</th>
+        <th>Description</th>
+        <th>Weight</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="3">Bu soruya atanmış kazanım bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OutcomeCode</td>
+                <td>@item.OutcomeDescription</td>
+                <td>@(item.Weight.HasValue ? item.Weight.Value.ToString("0.##") : "-")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="AssignOutcomes" asp-route-id="@questionId">Assign / Update Outcomes</a> |
+    <a asp-action="Details" asp-route-id="@questionId">Back to Question Details</a>
+</p>
