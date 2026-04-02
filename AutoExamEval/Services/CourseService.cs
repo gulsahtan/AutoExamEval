@@ -86,6 +86,7 @@ public class CourseService : ICourseService
     {
         var existingCourse = await _context.Courses.Include(c => c.Exams)
             .FirstOrDefaultAsync(c => c.Id == id);
+        var existingCourse = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
         if (existingCourse is null)
         {
             return false;
@@ -102,6 +103,9 @@ public class CourseService : ICourseService
         {
             return false;
         }
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<bool> ExistsAsync(int id)

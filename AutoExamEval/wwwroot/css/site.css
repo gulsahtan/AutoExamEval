@@ -16,6 +16,7 @@ body {
 }
 
 .nav-content {
+.navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,6 +31,10 @@ body {
 .navbar a {
     color: #fff;
     text-decoration: none;
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1rem;
 }
 
 .brand {
@@ -68,6 +73,7 @@ body {
 
 input,
 textarea {
+input {
     display: block;
     margin-top: 0.3rem;
     margin-bottom: 0.7rem;
