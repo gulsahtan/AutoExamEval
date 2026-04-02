@@ -1,0 +1,110 @@
+@model AutoExamEval.ViewModels.ExamTemplate.ExamTemplateViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template Preview - @Model.ExamTitle</title>
+    <link rel="stylesheet" href="~/css/exam-template.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/exam-template-print.css" asp-append-version="true" media="print" />
+</head>
+<body>
+    <div class="template-page">
+        <div class="screen-actions no-print">
+            <a class="btn" href="javascript:window.print();">Print</a>
+            <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.ExamId">Back to Exam Details</a>
+        </div>
+
+        <header class="template-header">
+            <h1>@Model.UniversityName</h1>
+            <h2>@Model.FacultyName - @Model.DepartmentName</h2>
+            <h3>@Model.ExamTitle</h3>
+        </header>
+
+        <section class="meta-grid">
+            <div><strong>Ders:</strong> @Model.CourseCode - @Model.CourseName</div>
+            <div><strong>Öğretim Elemanı:</strong> @Model.InstructorName</div>
+            <div><strong>Sınav Türü:</strong> @Model.ExamType</div>
+            <div><strong>Tarih:</strong> @Model.ExamDate.ToString("yyyy-MM-dd")</div>
+            <div><strong>Yer:</strong> @Model.ExamLocation</div>
+            <div><strong>Süre:</strong> @Model.DurationMinutes dk</div>
+            <div><strong>Toplam Puan:</strong> @Model.TotalScore</div>
+            <div><strong>Dönem/Yıl:</strong> @Model.Term - @Model.AcademicYear</div>
+        </section>
+
+        <section class="student-info">
+            <div>Ad Soyad: ____________________________</div>
+            <div>Öğrenci No: ___________________________</div>
+            <div>Sınıf / Şube: _________________________</div>
+            <div>İmza: _________________________________</div>
+        </section>
+
+        <section class="instructions">
+            <strong>Talimatlar:</strong>
+            <p>@Model.InstructionText</p>
+        </section>
+
+        <section class="question-list">
+            @if (!Model.Questions.Any())
+            {
+                <p class="empty-state">Bu sınava ait soru bulunmamaktadır.</p>
+            }
+            else
+            {
+                @foreach (var question in Model.Questions)
+                {
+                    <article class="question-block">
+                        <div class="question-title">
+                            <span>Soru @question.QuestionNo</span>
+                            <span>Puan: @question.Score</span>
+                        </div>
+                        <p>@question.QuestionText</p>
+
+                        @if (question.HasOptions)
+                        {
+                            <ul class="option-list">
+                                <li>A) @question.OptionA</li>
+                                <li>B) @question.OptionB</li>
+                                <li>C) @question.OptionC</li>
+                                <li>D) @question.OptionD</li>
+                                @if (!string.IsNullOrWhiteSpace(question.OptionE))
+                                {
+                                    <li>E) @question.OptionE</li>
+                                }
+                            </ul>
+                            <div class="marking-row">A ○ &nbsp; B ○ &nbsp; C ○ &nbsp; D ○ &nbsp; E ○</div>
+                        }
+
+                        @if (question.ShowTrueFalseBoxes)
+                        {
+                            <div class="marking-row">Doğru [ ] &nbsp;&nbsp; Yanlış [ ]</div>
+                        }
+
+                        @if (question.NeedsShortAnswerArea)
+                        {
+                            <div class="short-answer-line">Cevap: _______________________________________________</div>
+                        }
+
+                        @if (question.NeedsLongAnswerArea)
+                        {
+                            <div class="long-answer-area"></div>
+                        }
+                    </article>
+                }
+            }
+        </section>
+    </div>
+
+    @if (ViewBag.AutoPrint == true)
+    {
+        <script>
+            window.addEventListener('load', function () {
+                window.print();
+            });
+        </script>
+    }
+</body>
+</html>

@@ -1,0 +1,67 @@
+@model IEnumerable<AutoExamEval.ViewModels.Exam.ExamListViewModel>
+
+@{
+    ViewData["Title"] = "Course Exams";
+    var courseId = (int)ViewBag.CourseId;
+    var courseName = (string)ViewBag.CourseName;
+}
+
+<h2>Exams - @courseName</h2>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-error">@errorMessage</div>
+}
+
+<p>
+    <a class="btn" asp-action="Create" asp-route-courseId="@courseId">Add New Exam</a>
+    <a asp-controller="Course" asp-action="Details" asp-route-id="@courseId">Back to Course Details</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Exam Title</th>
+        <th>Exam Type</th>
+        <th>Exam Date</th>
+        <th>Location</th>
+        <th>Instructor</th>
+        <th>Duration</th>
+        <th>Total Score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="8">Bu derse ait sınav bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ExamTitle</td>
+                <td>@item.ExamType</td>
+                <td>@item.ExamDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.ExamLocation</td>
+                <td>@item.InstructorName</td>
+                <td>@item.DurationMinutes dk</td>
+                <td>@item.TotalScore</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
