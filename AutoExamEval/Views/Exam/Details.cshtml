@@ -6,6 +6,11 @@
 
 <h2>Exam Details</h2>
 
+<p>
+    <a class="btn" asp-action="TemplatePreview" asp-route-id="@Model.Id">Template Preview</a>
+    <a class="btn" asp-action="PrintTemplate" asp-route-id="@Model.Id">Print Template</a>
+</p>
+
 <dl>
     <dt>Course</dt>
     <dd>@Model.CourseName</dd>

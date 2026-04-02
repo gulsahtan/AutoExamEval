@@ -1,5 +1,6 @@
 using AutoExamEval.Services.Interfaces;
 using AutoExamEval.ViewModels.Exam;
+using AutoExamEval.ViewModels.ExamTemplate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,13 @@ public class ExamController : Controller
 {
     private readonly IExamService _examService;
     private readonly ICourseService _courseService;
+    private readonly IExamTemplateService _examTemplateService;
+
+    public ExamController(IExamService examService, ICourseService courseService, IExamTemplateService examTemplateService)
+    {
+        _examService = examService;
+        _courseService = courseService;
+        _examTemplateService = examTemplateService;
 
     public ExamController(IExamService examService, ICourseService courseService)
     {
@@ -202,6 +210,33 @@ public class ExamController : Controller
         TempData["SuccessMessage"] = "Exam başarıyla silindi.";
         return RedirectToAction(nameof(ByCourse), new { courseId });
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> TemplatePreview(int id)
+    {
+        var model = await _examTemplateService.GetTemplateAsync(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> PrintTemplate(int id)
+    {
+        var model = await _examTemplateService.GetTemplateAsync(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.AutoPrint = true;
+        return View("TemplatePreview", model);
+    }
+
 
     private async Task PopulateSelectionsAsync(ExamCreateViewModel model)
     {

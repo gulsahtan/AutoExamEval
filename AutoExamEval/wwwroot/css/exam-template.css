@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111;
+    background: #f3f4f6;
+    margin: 0;
+}
+
+.template-page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 1rem auto;
+    background: #fff;
+    padding: 16mm;
+    box-sizing: border-box;
+}
+
+.template-header {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.student-info,
+.instructions {
+    border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.question-block {
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    page-break-inside: avoid;
+}
+
+.question-title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.option-list {
+    margin: 0.5rem 0;
+    padding-left: 1.2rem;
+}
+
+.marking-row,
+.short-answer-line {
+    margin-top: 0.5rem;
+}
+
+.long-answer-area {
+    border: 1px dashed #9ca3af;
+    min-height: 140px;
+    margin-top: 0.5rem;
+}
+
+.screen-actions {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border: 0;
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #4b5563;
+}
+
+.empty-state {
+    color: #6b7280;
+}
