@@ -1,5 +1,6 @@
 using AutoExamEval.Services.Interfaces;
 using AutoExamEval.ViewModels.Question;
+using AutoExamEval.ViewModels.QuestionOutcome;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,13 @@ public class QuestionController : Controller
 {
     private readonly IQuestionService _questionService;
     private readonly IExamService _examService;
+    private readonly IQuestionOutcomeService _questionOutcomeService;
+
+    public QuestionController(IQuestionService questionService, IExamService examService, IQuestionOutcomeService questionOutcomeService)
+    {
+        _questionService = questionService;
+        _examService = examService;
+        _questionOutcomeService = questionOutcomeService;
 
     public QuestionController(IQuestionService questionService, IExamService examService)
     {
@@ -67,6 +75,17 @@ public class QuestionController : Controller
             Score = question.Score,
             AnswerText = question.AnswerText,
             CreatedAt = question.CreatedAt,
+            UpdatedAt = question.UpdatedAt,
+            AssignedOutcomes = question.QuestionOutcomes
+                .OrderBy(x => x.LearningOutcome!.OutcomeCode)
+                .Select(x => new QuestionOutcomeListViewModel
+                {
+                    LearningOutcomeId = x.LearningOutcomeId,
+                    OutcomeCode = x.LearningOutcome != null ? x.LearningOutcome.OutcomeCode : "-",
+                    OutcomeDescription = x.LearningOutcome != null ? x.LearningOutcome.Description : "-",
+                    Weight = x.Weight
+                })
+                .ToList()
             UpdatedAt = question.UpdatedAt
         };
 
@@ -226,6 +245,88 @@ public class QuestionController : Controller
         TempData["SuccessMessage"] = "Question başarıyla silindi.";
         return RedirectToAction(nameof(ByExam), new { examId });
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> AssignOutcomes(int id)
+    {
+        var model = await _questionOutcomeService.GetAssignViewModelAsync(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AssignOutcomes(QuestionOutcomeAssignViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            var reloadModel = await _questionOutcomeService.GetAssignViewModelAsync(model.QuestionId);
+            if (reloadModel is null)
+            {
+                return NotFound();
+            }
+
+            foreach (var item in model.Outcomes)
+            {
+                var target = reloadModel.Outcomes.FirstOrDefault(x => x.LearningOutcomeId == item.LearningOutcomeId);
+                if (target is not null)
+                {
+                    target.IsSelected = item.IsSelected;
+                    target.Weight = item.Weight;
+                }
+            }
+
+            return View(reloadModel);
+        }
+
+        try
+        {
+            await _questionOutcomeService.SaveAssignmentsAsync(model);
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+            var reloadModel = await _questionOutcomeService.GetAssignViewModelAsync(model.QuestionId);
+            if (reloadModel is null)
+            {
+                return NotFound();
+            }
+
+            foreach (var item in model.Outcomes)
+            {
+                var target = reloadModel.Outcomes.FirstOrDefault(x => x.LearningOutcomeId == item.LearningOutcomeId);
+                if (target is not null)
+                {
+                    target.IsSelected = item.IsSelected;
+                    target.Weight = item.Weight;
+                }
+            }
+
+            return View(reloadModel);
+        }
+
+        TempData["SuccessMessage"] = "Question outcomes başarıyla güncellendi.";
+        return RedirectToAction(nameof(Details), new { id = model.QuestionId });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AssignedOutcomes(int id)
+    {
+        if (!await _questionOutcomeService.QuestionExistsAsync(id))
+        {
+            return NotFound();
+        }
+
+        var assignments = await _questionOutcomeService.GetAssignmentsByQuestionIdAsync(id);
+        ViewBag.QuestionId = id;
+        return View(assignments);
+    }
+
 
     private async Task PopulateSelectionsAsync(QuestionCreateViewModel model)
     {

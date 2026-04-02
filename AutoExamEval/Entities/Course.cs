@@ -34,4 +34,6 @@ public class Course
     public DateTime UpdatedAt { get; set; }
 
     public ICollection<Exam> Exams { get; set; } = new List<Exam>();
+
+    public ICollection<LearningOutcome> LearningOutcomes { get; set; } = new List<LearningOutcome>();
 }

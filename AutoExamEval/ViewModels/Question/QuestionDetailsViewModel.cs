@@ -1,3 +1,4 @@
+using AutoExamEval.ViewModels.QuestionOutcome;
 using AutoExamEval.Enums;
 
 namespace AutoExamEval.ViewModels.Question;
@@ -21,4 +22,6 @@ public class QuestionDetailsViewModel
     public string? AnswerText { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public List<QuestionOutcomeListViewModel> AssignedOutcomes { get; set; } = new();
 }

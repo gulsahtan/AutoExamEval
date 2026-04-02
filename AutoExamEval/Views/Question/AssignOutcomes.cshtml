@@ -1,0 +1,60 @@
+@model AutoExamEval.ViewModels.QuestionOutcome.QuestionOutcomeAssignViewModel
+
+@{
+    ViewData["Title"] = "Assign Outcomes";
+}
+
+<h2>Assign / Update Outcomes</h2>
+
+<div>
+    <p><strong>Course:</strong> @Model.CourseName</p>
+    <p><strong>Exam:</strong> @Model.ExamTitle</p>
+    <p><strong>Question No:</strong> @Model.QuestionNo</p>
+    <p><strong>Question:</strong> @Model.QuestionText</p>
+</div>
+
+<form asp-action="AssignOutcomes" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="QuestionId" />
+    <input type="hidden" asp-for="ExamId" />
+    <input type="hidden" asp-for="CourseId" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Select</th>
+            <th>Outcome Code</th>
+            <th>Description</th>
+            <th>Weight</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Outcomes.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="hidden" asp-for="Outcomes[i].LearningOutcomeId" />
+                    <input type="hidden" asp-for="Outcomes[i].OutcomeCode" />
+                    <input type="hidden" asp-for="Outcomes[i].OutcomeDescription" />
+                    <input asp-for="Outcomes[i].IsSelected" />
+                </td>
+                <td>@Model.Outcomes[i].OutcomeCode</td>
+                <td>@Model.Outcomes[i].OutcomeDescription</td>
+                <td>
+                    <input asp-for="Outcomes[i].Weight" type="number" min="0" step="0.01" />
+                    <span asp-validation-for="Outcomes[i].Weight" class="text-danger"></span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button class="btn" type="submit">Save Assignments</button>
+    <a asp-action="Details" asp-route-id="@Model.QuestionId">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -43,6 +43,8 @@ public class QuestionService : IQuestionService
             .AsNoTracking()
             .Include(x => x.Exam)
             .ThenInclude(x => x!.Course)
+            .Include(x => x.QuestionOutcomes)
+            .ThenInclude(x => x.LearningOutcome)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 

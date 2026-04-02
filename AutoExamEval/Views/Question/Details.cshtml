@@ -53,6 +53,41 @@
     <dd>@Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
 </dl>
 
+
+<hr />
+<h3>Assigned Learning Outcomes</h3>
+<p>
+    <a class="btn" asp-action="AssignOutcomes" asp-route-id="@Model.Id">Assign / Update Outcomes</a>
+    <a asp-action="AssignedOutcomes" asp-route-id="@Model.Id">View Assigned Outcomes</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>OutcomeCode</th>
+        <th>Description</th>
+        <th>Weight</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.AssignedOutcomes.Any())
+    {
+        <tr><td colspan="3">Bu soruya atanmış kazanım bulunmuyor.</td></tr>
+    }
+    else
+    {
+        @foreach (var outcome in Model.AssignedOutcomes)
+        {
+            <tr>
+                <td>@outcome.OutcomeCode</td>
+                <td>@outcome.OutcomeDescription</td>
+                <td>@(outcome.Weight.HasValue ? outcome.Weight.Value.ToString("0.##") : "-")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
 <p>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="ByExam" asp-route-examId="@Model.ExamId">Back to Exam Questions</a>

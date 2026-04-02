@@ -58,6 +58,7 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IQuestionOutcomeService, QuestionOutcomeService>();
 });
 
 builder.Services.AddControllersWithViews();
