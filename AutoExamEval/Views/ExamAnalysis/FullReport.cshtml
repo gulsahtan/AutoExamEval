@@ -1,0 +1,153 @@
+@model AutoExamEval.ViewModels.Analysis.ExamFullAnalysisViewModel
+
+@{
+    ViewData["Title"] = "Exam Analysis Report";
+    var hasImportedAnswers = (bool?)ViewBag.HasImportedAnswers ?? false;
+}
+
+<h2>Exam Analysis Report</h2>
+
+<div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+    <p class="mb-2 mb-md-0">
+        <strong>Course:</strong> @Model.Summary.CourseName <br />
+        <strong>Exam:</strong> @Model.Summary.ExamTitle
+    </p>
+    <a class="btn btn-outline-primary" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.Summary.ExamId">Back to Exam Details</a>
+</div>
+
+@if (!hasImportedAnswers)
+{
+    <div class="alert alert-warning">
+        Bu sınava ait import edilmiş cevap kaydı bulunamadı. Analiz sonuçları sınırlı olabilir.
+    </div>
+}
+
+<h3 class="mt-4">1) Exam Summary</h3>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Students</div><div class="h4 mb-0">@Model.Summary.TotalStudents</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Questions</div><div class="h4 mb-0">@Model.Summary.TotalQuestions</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Answers</div><div class="h4 mb-0">@Model.Summary.TotalAnswers</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Average Score</div><div class="h4 mb-0">@Model.Summary.AverageScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Highest Score</div><div class="h4 mb-0">@Model.Summary.HighestScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Lowest Score</div><div class="h4 mb-0">@Model.Summary.LowestScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Average Success Rate</div><div class="h4 mb-0">@Model.Summary.AverageSuccessRate %</div></div></div></div>
+</div>
+
+<h3>2) Student Performance</h3>
+<div class="table-responsive mb-4">
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead>
+    <tr>
+        <th>Student Number</th>
+        <th>Full Name</th>
+        <th>Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Total Score</th>
+        <th>Success Rate</th>
+        <th>Needs Manual Evaluation</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.StudentPerformances.Any())
+    {
+        <tr><td colspan="8">Öğrenci performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.StudentPerformances)
+        {
+            <tr>
+                <td>@item.StudentNumber</td>
+                <td>@item.FullName</td>
+                <td>@item.CorrectCount</td>
+                <td>@item.WrongCount</td>
+                <td>@item.BlankCount</td>
+                <td>@item.TotalScore</td>
+                <td>@item.SuccessRate %</td>
+                <td>@(item.NeedsManualEvaluation ? "Yes" : "No")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+</div>
+
+<h3>3) Question Performance</h3>
+<p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
+<div class="table-responsive mb-4">
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead>
+    <tr>
+        <th>Question No</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Total Responses</th>
+        <th>Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Success Rate</th>
+        <th>Difficulty Index</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.QuestionPerformances.Any())
+    {
+        <tr><td colspan="9">Soru performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.QuestionPerformances)
+        {
+            <tr>
+                <td>@item.QuestionNo</td>
+                <td>@item.QuestionType</td>
+                <td>@item.Score</td>
+                <td>@item.TotalResponses</td>
+                <td>@item.CorrectCount</td>
+                <td>@item.WrongCount</td>
+                <td>@item.BlankCount</td>
+                <td>@item.SuccessRate %</td>
+                <td>@item.DifficultyIndex</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+</div>
+
+<h3>4) Learning Outcome Performance</h3>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead>
+    <tr>
+        <th>Outcome Code</th>
+        <th>Description</th>
+        <th>Related Question Count</th>
+        <th>Student Interaction Count</th>
+        <th>Success Rate</th>
+        <th>Average Contribution Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.LearningOutcomePerformances.Any())
+    {
+        <tr><td colspan="6">Kazanım performans verisi bulunamadı.</td></tr>
+    }
+    else
+    {
+        foreach (var item in Model.LearningOutcomePerformances)
+        {
+            <tr>
+                <td>@item.OutcomeCode</td>
+                <td>@item.OutcomeDescription</td>
+                <td>@item.RelatedQuestionCount</td>
+                <td>@item.StudentInteractionCount</td>
+                <td>@item.SuccessRate %</td>
+                <td>@item.AverageContributionScore</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+</div>

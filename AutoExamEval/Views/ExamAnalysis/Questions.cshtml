@@ -1,0 +1,40 @@
+@model List<AutoExamEval.ViewModels.Analysis.QuestionPerformanceViewModel>
+
+@{
+    ViewData["Title"] = "Question Performance";
+    var examId = (int?)ViewBag.ExamId ?? 0;
+}
+
+<h2>Question Performance</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>No</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Total Responses</th>
+        <th>Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Success Rate</th>
+        <th>Difficulty Index</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.QuestionNo</td>
+            <td>@item.QuestionType</td>
+            <td>@item.Score</td>
+            <td>@item.TotalResponses</td>
+            <td>@item.CorrectCount</td>
+            <td>@item.WrongCount</td>
+            <td>@item.BlankCount</td>
+            <td>@item.SuccessRate %</td>
+            <td>@item.DifficultyIndex</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<p><a asp-action="FullReport" asp-route-examId="@examId">Full Report</a></p>

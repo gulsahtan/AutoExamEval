@@ -1,0 +1,55 @@
+@model IEnumerable<AutoExamEval.ViewModels.Question.QuestionListViewModel>
+
+@{
+    ViewData["Title"] = "Questions";
+}
+
+<h2>Questions</h2>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<p>
+    <a class="btn" asp-action="Create">New Question</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Exam</th>
+        <th>Question No</th>
+        <th>Question Type</th>
+        <th>Question Text</th>
+        <th>Score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Henüz kayıtlı soru bulunmuyor.</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ExamTitle</td>
+                <td>@item.QuestionNo</td>
+                <td>@item.QuestionType</td>
+                <td>@(item.QuestionText.Length > 100 ? item.QuestionText[..100] + "..." : item.QuestionText)</td>
+                <td>@item.Score</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
