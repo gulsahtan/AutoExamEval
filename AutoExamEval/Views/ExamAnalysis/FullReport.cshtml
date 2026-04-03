@@ -7,6 +7,13 @@
 
 <h2>Exam Analysis Report</h2>
 
+<div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+    <p class="mb-2 mb-md-0">
+        <strong>Course:</strong> @Model.Summary.CourseName <br />
+        <strong>Exam:</strong> @Model.Summary.ExamTitle
+    </p>
+    <a class="btn btn-outline-primary" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.Summary.ExamId">Back to Exam Details</a>
+</div>
 <p>
     <strong>Course:</strong> @Model.Summary.CourseName <br />
     <strong>Exam:</strong> @Model.Summary.ExamTitle
@@ -23,6 +30,20 @@
     </div>
 }
 
+<h3 class="mt-4">1) Exam Summary</h3>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Students</div><div class="h4 mb-0">@Model.Summary.TotalStudents</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Questions</div><div class="h4 mb-0">@Model.Summary.TotalQuestions</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Total Answers</div><div class="h4 mb-0">@Model.Summary.TotalAnswers</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Average Score</div><div class="h4 mb-0">@Model.Summary.AverageScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Highest Score</div><div class="h4 mb-0">@Model.Summary.HighestScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Lowest Score</div><div class="h4 mb-0">@Model.Summary.LowestScore</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="card h-100 shadow-sm"><div class="card-body"><div class="text-muted small">Average Success Rate</div><div class="h4 mb-0">@Model.Summary.AverageSuccessRate %</div></div></div></div>
+</div>
+
+<h3>2) Student Performance</h3>
+<div class="table-responsive mb-4">
+<table class="table table-striped table-hover table-bordered align-middle">
 <h3>1) Exam Summary</h3>
 <div style="display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin-bottom:16px;">
     <div class="card p-2"><strong>Total Students</strong><br />@Model.Summary.TotalStudents</div>
@@ -71,6 +92,12 @@
     }
     </tbody>
 </table>
+</div>
+
+<h3>3) Question Performance</h3>
+<p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
+<div class="table-responsive mb-4">
+<table class="table table-striped table-hover table-bordered align-middle">
 
 <h3>3) Question Performance</h3>
 <p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
@@ -112,6 +139,11 @@
     }
     </tbody>
 </table>
+</div>
+
+<h3>4) Learning Outcome Performance</h3>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-bordered align-middle">
 
 <h3>4) Learning Outcome Performance</h3>
 <table class="table">
@@ -146,3 +178,4 @@
     }
     </tbody>
 </table>
+</div>

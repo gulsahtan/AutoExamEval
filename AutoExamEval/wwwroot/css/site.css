@@ -105,6 +105,11 @@ input {
     color: #166534;
 }
 
+.alert-warning {
+    background: #fff3cd;
+    color: #664d03;
+}
+
 .text-danger {
     color: #b91c1c;
 }
