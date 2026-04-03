@@ -18,6 +18,11 @@ public class QuestionController : Controller
         _questionService = questionService;
         _examService = examService;
         _questionOutcomeService = questionOutcomeService;
+
+    public QuestionController(IQuestionService questionService, IExamService examService)
+    {
+        _questionService = questionService;
+        _examService = examService;
     }
 
     public async Task<IActionResult> Index()
@@ -81,6 +86,7 @@ public class QuestionController : Controller
                     Weight = x.Weight
                 })
                 .ToList()
+            UpdatedAt = question.UpdatedAt
         };
 
         return View(model);

@@ -14,6 +14,14 @@
     </p>
     <a class="btn btn-outline-primary" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.Summary.ExamId">Back to Exam Details</a>
 </div>
+<p>
+    <strong>Course:</strong> @Model.Summary.CourseName <br />
+    <strong>Exam:</strong> @Model.Summary.ExamTitle
+</p>
+
+<p>
+    <a class="btn" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.Summary.ExamId">Back to Exam Details</a>
+</p>
 
 @if (!hasImportedAnswers)
 {
@@ -36,6 +44,19 @@
 <h3>2) Student Performance</h3>
 <div class="table-responsive mb-4">
 <table class="table table-striped table-hover table-bordered align-middle">
+<h3>1) Exam Summary</h3>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin-bottom:16px;">
+    <div class="card p-2"><strong>Total Students</strong><br />@Model.Summary.TotalStudents</div>
+    <div class="card p-2"><strong>Total Questions</strong><br />@Model.Summary.TotalQuestions</div>
+    <div class="card p-2"><strong>Total Answers</strong><br />@Model.Summary.TotalAnswers</div>
+    <div class="card p-2"><strong>Average Score</strong><br />@Model.Summary.AverageScore</div>
+    <div class="card p-2"><strong>Highest Score</strong><br />@Model.Summary.HighestScore</div>
+    <div class="card p-2"><strong>Lowest Score</strong><br />@Model.Summary.LowestScore</div>
+    <div class="card p-2"><strong>Average Success Rate</strong><br />@Model.Summary.AverageSuccessRate %</div>
+</div>
+
+<h3>2) Student Performance</h3>
+<table class="table">
     <thead>
     <tr>
         <th>Student Number</th>
@@ -77,6 +98,10 @@
 <p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
 <div class="table-responsive mb-4">
 <table class="table table-striped table-hover table-bordered align-middle">
+
+<h3>3) Question Performance</h3>
+<p><em>Not: Written sorular otomatik değerlendirmeye dahil edilmez (manual evaluation required).</em></p>
+<table class="table">
     <thead>
     <tr>
         <th>Question No</th>
@@ -119,6 +144,9 @@
 <h3>4) Learning Outcome Performance</h3>
 <div class="table-responsive">
 <table class="table table-striped table-hover table-bordered align-middle">
+
+<h3>4) Learning Outcome Performance</h3>
+<table class="table">
     <thead>
     <tr>
         <th>Outcome Code</th>

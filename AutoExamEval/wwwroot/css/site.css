@@ -16,6 +16,7 @@ body {
 }
 
 .nav-content {
+.navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,6 +31,10 @@ body {
 .navbar a {
     color: #fff;
     text-decoration: none;
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1rem;
 }
 
 .brand {
@@ -50,6 +55,16 @@ body {
     margin: 0;
 }
 
+.btn {
+    border: 0;
+    background: #2563eb;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .btn-link {
     background: transparent;
     color: #fff;
@@ -58,11 +73,25 @@ body {
 
 input,
 textarea {
+input {
     display: block;
     margin-top: 0.3rem;
     margin-bottom: 0.7rem;
     padding: 0.45rem;
     min-width: 320px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.table th,
+.table td {
+    border: 1px solid #d1d5db;
+    padding: 0.6rem;
+    text-align: left;
 }
 
 .alert {
